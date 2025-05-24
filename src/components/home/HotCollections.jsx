@@ -1,81 +1,127 @@
-import React, {useState, UseEffect} from "react";
+import React, { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
+
 import axios from 'axios';
+
+import Slider from "react-slick";
+
+function SimpleSlider () {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+  }
+}
 
 
 const HotCollections = () => {
 
-axios.get('https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections')
-.then(response => {
-  // Handle successful response
-  console.log(response.data);
-})
-.catch(error => {
-  // Handle errors
-  console.error('Error fetching data:', error);
-});
+  const [collections, setCollections] = useState([]);
 
-axios.get('https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections', {
-  params: {
-    id: 123456
-  }
-})
-.then(response => {
-  console.log(response.data);
-})
-.catch(error => {
-  console.error('Error fetching user data:', error);
-});
+  async function getData() {
 
-async function getData() {
-  try {
-    const response = await axios.get('https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections');
-    console.log(response.data);
-  } catch (error) {
-    console.error('Error fetching data:', error);
+    try {
+
+      const response = await axios.get('https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections');
+
+      setCollections(response.data);
+
+    } catch (error) {
+
+      console.error('Error fetching data:', error);
+
+    }
+
   }
-}
-getData();
+
+  useEffect(() => {
+
+    getData();
+
+  }, []);
+
+  
 
   return (
+
     <section id="section-collections" className="no-bottom">
+
       <div className="container">
+
         <div className="row">
+
           <div className="col-lg-12">
+
             <div className="text-center">
+
               <h2>Hot Collections</h2>
+
               <div className="small-border bg-color-2"></div>
+
             </div>
-          
-          </div>
-          {new Array(4).fill(0).map((_, index) => (
+
+           </div>
+
+      <Slider {...settings}>
+
+          {collections.slice(0, 4).map((collection, index) => (
+
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+
               <div className="nft_coll">
+
                 <div className="nft_wrap">
-                 
+
                   <Link to="/item-details">
-                    <img src={nftImage} className="lazy img-fluid" alt="" />
+
+                    <img src={collection.nftImage} className="lazy img-fluid" alt="" />
+
                   </Link>
+
                 </div>
+
                 <div className="nft_coll_pp">
+
                   <Link to="/author">
-                    <img className="lazy pp-coll" src={AuthorImage} alt="" />
+
+                    <img className="lazy pp-coll" src={collection.authorImage} alt="" />
+
                   </Link>
+
                   <i className="fa fa-check"></i>
+
                 </div>
+
                 <div className="nft_coll_info">
+
                   <Link to="/explore">
-                    <h4></h4>
+
+                    <h4>{collection.title}</h4>
+
                   </Link>
-                  <span>ERC-192</span>
+
+                  <span>ERC-{collection.code}</span>
+
                 </div>
+
               </div>
+
             </div>
+
           ))}
+</Slider>
+
         </div>
+
       </div>
+
     </section>
+
   );
+
 };
 
 export default HotCollections;
