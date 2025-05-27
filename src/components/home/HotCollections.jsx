@@ -36,9 +36,7 @@ const HotCollections = () => {
 
   }, []);
 
-  const CustomButtons = () => {
     const sliderRef = useRef(null);
-  }
 
 
     const settings = {
@@ -47,8 +45,8 @@ const HotCollections = () => {
       speed: 500,
       slidesToShow: 4,
       slidesToScroll: 1,
-      nextArrow: <CustomNextArrow onClick={() => sliderRef.current.slickNext()} />,
-      prevArrow: <CustomPrevArrow onClick={() => sliderRef.current.slickPrev()} />,
+      nextArrow: <CustomNextArrow className="slick-slick-prev pull-left fa fa-angle-left"  onClick={() => sliderRef.current.slickNext()} />,
+      prevArrow: <CustomPrevArrow className="slick-next pull-right fa fa-angle-right" onClick={() => sliderRef.current.slickPrev()} />,
     };
   
 
@@ -76,7 +74,7 @@ const HotCollections = () => {
 <Slider ref={sliderRef} {...settings}>
           {collections.slice(0, 4).map((collection, index) => (
 
-            <div className="" key={index}>
+            <div className="slick-arrow" key={index}>
 
               <div className="nft_coll">
 
