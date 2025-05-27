@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -6,15 +6,8 @@ import axios from 'axios';
 
 import Slider from "react-slick";
 
-function SimpleSlider () {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-  }
-}
+
+
 
 
 const HotCollections = () => {
@@ -44,6 +37,14 @@ const HotCollections = () => {
   }, []);
 
   
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+    };
+  
 
   return (
 
@@ -65,8 +66,8 @@ const HotCollections = () => {
 
            </div>
 
-      <Slider {...settings}>
-
+      
+<Slider  {...settings}>
           {collections.slice(0, 4).map((collection, index) => (
 
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
@@ -123,5 +124,7 @@ const HotCollections = () => {
   );
 
 };
+
+
 
 export default HotCollections;
