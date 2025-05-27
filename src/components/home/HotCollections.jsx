@@ -36,13 +36,19 @@ const HotCollections = () => {
 
   }, []);
 
-  
+  const CustomButtons = () => {
+    const sliderRef = useRef(null);
+  }
+
+
     const settings = {
       dots: true,
       infinite: true,
       speed: 500,
       slidesToShow: 4,
       slidesToScroll: 1,
+      nextArrow: <CustomNextArrow onClick={() => sliderRef.current.slickNext()} />,
+      prevArrow: <CustomPrevArrow onClick={() => sliderRef.current.slickPrev()} />,
     };
   
 
@@ -67,10 +73,10 @@ const HotCollections = () => {
            </div>
 
       
-<Slider  {...settings}>
+<Slider ref={sliderRef} {...settings}>
           {collections.slice(0, 4).map((collection, index) => (
 
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+            <div className="" key={index}>
 
               <div className="nft_coll">
 
@@ -125,6 +131,17 @@ const HotCollections = () => {
 
 };
 
+const CustomNextArrow = ({ onClick }) => (
+  <button type="button" className="custom-next-arrow" onClick={onClick}>
+    Next
+  </button>
+);
+
+const CustomPrevArrow = ({ onClick }) => (
+  <button type="button" className="custom-prev-arrow" onClick={onClick}>
+    Previous
+  </button>
+);
 
 
 export default HotCollections;
