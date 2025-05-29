@@ -14,7 +14,7 @@ const HotCollections = () => {
   useEffect(() => {
      // Simulate data loading
      setTimeout(() => {
-        setData({ /* your data */ });
+        setData({ data });
         setIsLoading(false);
      }, 2000);
   }, []);
