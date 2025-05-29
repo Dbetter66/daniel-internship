@@ -1,9 +1,82 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
+import axios from 'axios';
+import Slider from "react-slick";
+
 
 const NewItems = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+     // Simulate data loading
+     setTimeout(() => {
+        setData({ /* your data */ });
+        setIsLoading(false);
+     }, 2000);
+  }, []);
+
+const [collections, setCollections] = useState([]);
+
+async function getData() {
+
+  try {
+
+    const response = await axios.get('https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems');
+
+    setCollections(response.data);
+
+  } catch (error) {
+
+    console.error('Error fetching data:', error);
+
+  }
+
+}
+
+useEffect(() => {
+
+  getData();
+
+}, []);
+
+const sliderRef = useRef(null);
+
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "circle", background: "black" }}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "", background: "black" }}
+      onClick={onClick}
+    />
+  );
+}
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  nextArrow: <SampleNextArrow className="slick-slick-prev pull-left fa fa-angle-left"  onClick={() => sliderRef.current.slickNext()} />,
+  prevArrow: <SamplePrevArrow className="slick-next pull-right fa fa-angle-right" onClick={() => sliderRef.current.slickPrev()} />,
+};
+
+
   return (
     <section id="section-items" className="no-bottom">
       <div className="container">
@@ -14,8 +87,10 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {new Array(4).fill(0).map((_, index) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+
+          <Slider ref={sliderRef} {...settings}>
+          {collections.slice(0, 4).map((collection, index) => (
+            <div className="" key={index}>
               <div className="nft__item">
                 <div className="author_list_pp">
                   <Link
@@ -24,7 +99,7 @@ const NewItems = () => {
                     data-bs-placement="top"
                     title="Creator: Monica Lucas"
                   >
-                    <img className="lazy" src={AuthorImage} alt="" />
+                    <img className="lazy" src={collection.authorImage} alt="" />
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
@@ -48,10 +123,11 @@ const NewItems = () => {
                       </div>
                     </div>
                   </div>
+                  <div className="nft_wrap">
 
                   <Link to="/item-details">
                     <img
-                      src={nftImage}
+                      src={collections.nftImage}
                       className="lazy nft__item_preview"
                       alt=""
                     />
@@ -59,17 +135,19 @@ const NewItems = () => {
                 </div>
                 <div className="nft__item_info">
                   <Link to="/item-details">
-                    <h4>Pinky Ocean</h4>
+                    <h4>{collection.title}</h4>
                   </Link>
-                  <div className="nft__item_price">3.08 ETH</div>
+                  <div className="nft__item_price">{collection.price} ETH</div>
                   <div className="nft__item_like">
                     <i className="fa fa-heart"></i>
-                    <span>69</span>
+                    <span>{collections.likes}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           ))}
+</Slider>
         </div>
       </div>
     </section>

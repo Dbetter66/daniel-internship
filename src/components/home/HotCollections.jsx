@@ -7,9 +7,6 @@ import axios from 'axios';
 import Slider from "react-slick";
 
 
-
-
-
 const HotCollections = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
