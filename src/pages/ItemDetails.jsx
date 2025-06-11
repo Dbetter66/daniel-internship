@@ -1,68 +1,28 @@
 import React, { useEffect, useState, } from "react";
 import EthImage from "../images/ethereum.svg";
 import { Link } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
-import nftImage from "../images/nftImage.jpg";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 
 const ItemDetails = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-     // Simulate data loading
-     setTimeout(() => {
-        setData({ data });
-        setIsLoading(false);
-     }, 2000);
-  }, []);
-
-  const [collections, setCollections] = useState([]);
-
-  async function getData() {
-
-    try {
-
-      const response = await axios.get('https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems');
-
-      setCollections(response.data);
-
-    } catch (error) {
-
-      console.error('Error fetching data:', error);
-
-    }
-
-  }
-
-  useEffect(() => {
-
-    getData();
-
-  }, []);
-
-    const { userId } = useParams();
-    const [userData, setUserData] = useState(null);
+ 
+    const [collections, setCollections] = useState([]);
+    const { nftId } = useParams();
   
+    const fetchUserData = async () => {
+      try {
+        const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`)
+        console.log(data)
+        setCollections(data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
     useEffect(() => {
-      const fetchUserData = async () => {
-        try {
-          const response = await fetch(`https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections${userId}`);
-          const data = await response.json();
-          setUserData(data);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      };
-  
       fetchUserData();
-    }, [userId]);
+      window.scrollTo(0, 0);
+    }, []);
 
 
   return (
@@ -86,11 +46,11 @@ const ItemDetails = () => {
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
-                      100
+                      {collections.views}
                     </div>
                     <div className="item_info_like">
                       <i className="fa fa-heart"></i>
-                      74
+                      {collections.likes}
                     </div>
                   </div>
                   <p>
@@ -104,12 +64,12 @@ const ItemDetails = () => {
                       <div className="item_author">
                         <div className="author_list_pp">
                           <Link to="/author">
-                            <img className="lazy" src={collections.authorImage} alt="" />
+                            <img className="lazy" src={collections.ownerImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">{collections.authorImage}</Link>
+                          <Link to="/author">{collections.ownerName}</Link>
                         </div>
                       </div>
                     </div>
@@ -121,12 +81,12 @@ const ItemDetails = () => {
                       <div className="item_author">
                         <div className="author_list_pp">
                           <Link to="/author">
-                            <img className="lazy" src={collections.authorImage} alt="" />
+                            <img className="lazy" src={collections.creatorImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">{collections.title}</Link>
+                          <Link to="/author">{collections.creatorName}</Link>
                         </div>
                       </div>
                     </div>
