@@ -128,7 +128,7 @@ const NewItems = () => {
           ) : (
             <Slider ref={sliderRef} {...settings} key={collections.length}>
               {collections.map((collection, index) => (
-                <div className="" key={index}>
+                <div className="sslick-arrow px-1" key={index}>
                   <div className="nft__item">
                     <div className="author_list_pp">
                       <Link
