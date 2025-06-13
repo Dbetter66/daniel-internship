@@ -1,10 +1,29 @@
-import React from "react";
-import AuthorBanner from "../images/author_banner.jpg";
-import AuthorItems from "../components/author/AuthorItems";
+import React, { useEffect, useState, } from "react";
+import EthImage from "../images/ethereum.svg";
 import { Link } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
+import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 const Author = () => {
+ 
+  const [collections, setCollections] = useState([]);
+  const { nftId } = useParams();
+
+  const fetchUserData = async () => {
+    try {
+      const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/author?nftId=${nftId}`)
+      console.log(data)
+      setCollections(data);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -15,7 +34,7 @@ const Author = () => {
           aria-label="section"
           className="text-light"
           data-bgimage="url(images/author_banner.jpg) top"
-          style={{ background: `url(${AuthorBanner}) top` }}
+          style={{ background: `url(${collections.authorImage}) top` }}
         ></section>
 
         <section aria-label="section">
@@ -25,13 +44,13 @@ const Author = () => {
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
                     <div className="profile_avatar">
-                      <img src={AuthorImage} alt="" />
+                      <img src={collections.AuthorId} alt="" />
 
                       <i className="fa fa-check"></i>
                       <div className="profile_name">
                         <h4>
-                          Monica Lucas
-                          <span className="profile_username">@monicaaaa</span>
+                          {collections.creatorName}
+                          <span className="profile_username">{collections.creatorName}</span>
                           <span id="wallet" className="profile_wallet">
                             UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
                           </span>
@@ -44,7 +63,7 @@ const Author = () => {
                   </div>
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
-                      <div className="profile_follower">573 followers</div>
+                      <div className="profile_follower">{collections.nftId}</div>
                       <Link to="#" className="btn-main">
                         Follow
                       </Link>
@@ -55,7 +74,6 @@ const Author = () => {
 
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
-                  <AuthorItems />
                 </div>
               </div>
             </div>

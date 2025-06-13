@@ -16729,3 +16729,7 @@ img {
 .no-cursor {
   cursor: not-allowed;
 }
+
+.slick-arrow .px-1 {
+  width: 100%;
+}
