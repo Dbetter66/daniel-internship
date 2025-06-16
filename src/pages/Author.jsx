@@ -1,5 +1,4 @@
 import React, { useEffect, useState, } from "react";
-import EthImage from "../images/ethereum.svg";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
@@ -7,11 +6,11 @@ import { useParams } from "react-router-dom";
 const Author = () => {
  
   const [collections, setCollections] = useState([]);
-  const { nftId } = useParams();
+  const { authorId } = useParams();
 
   const fetchUserData = async () => {
     try {
-      const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/author?nftId=${nftId}`)
+      const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`)
       console.log(data)
       setCollections(data);
     } catch (error) {
@@ -44,13 +43,13 @@ const Author = () => {
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
                     <div className="profile_avatar">
-                      <img src={collections.AuthorId} alt="" />
+                      <img src={collections.authorImage} alt="" />
 
                       <i className="fa fa-check"></i>
                       <div className="profile_name">
                         <h4>
                           {collections.creatorName}
-                          <span className="profile_username">{collections.creatorName}</span>
+                          <span className="profile_username">@{collections.tag}</span>
                           <span id="wallet" className="profile_wallet">
                             UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
                           </span>
@@ -63,16 +62,16 @@ const Author = () => {
                   </div>
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
-                      <div className="profile_follower">{collections.nftId}</div>
+                      <div className="profile_follower">{collections.followers} followers</div>
                       <Link to="#" className="btn-main">
                         Follow
                       </Link>
+                      
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div className="col-md-12">
+              <div className="col-md-12"> 
                 <div className="de_tab tab_simple">
                 </div>
               </div>
