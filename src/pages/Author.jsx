@@ -2,6 +2,7 @@ import React, { useEffect, useState, } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
+import AuthorItems from "../components/author/AuthorItems";
 
 const Author = () => {
  
@@ -66,13 +67,14 @@ const Author = () => {
                       <Link to="#" className="btn-main">
                         Follow
                       </Link>
+                   
+                    </div> 
                       
-                    </div>
                   </div>
                 </div>
               </div>
               <div className="col-md-12"> 
-                <div className="de_tab tab_simple">
+                <div className="de_tab tab_simple"><AuthorItems></AuthorItems>
                 </div>
               </div>
             </div>
