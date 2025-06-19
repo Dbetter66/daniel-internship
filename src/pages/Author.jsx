@@ -74,7 +74,7 @@ const Author = () => {
                 </div>
               </div>
               <div className="col-md-12"> 
-                <div className="de_tab tab_simple"><AuthorItems></AuthorItems>
+                <div className="de_tab tab_simple"><AuthorItems collections={collections} />
                 </div>
               </div>
             </div>
