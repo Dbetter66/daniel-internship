@@ -1,9 +1,60 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
+import axios from 'axios';
+import { useState, useEffect } from "react";
+import CountdownTimer from "../CountdownTimer"; 
 
 const ExploreItems = () => {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(4); 
+  const [data, setData] = useState(null);
+  const [allData, setAllData] = useState([]);
+
+  
+  useEffect(() => {
+    // Simulate data loading
+    setTimeout(() => {
+       setData({ data });
+       setIsLoading(false);
+    }, 2000);
+ }, []);
+
+  const [collections, setCollections] = useState([]);
+
+  async function getData() {
+    try {
+      const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/explore`);
+      // Important: Assuming the API provides an 'expiryDate' for each item.
+      // If not, you'll need to add a placeholder or generate one for demonstration.
+      // Example of adding a placeholder expiry date if your API doesn't provide it:
+      const collectionsWithExpiry = data.map(item => ({
+        ...item,
+        // Example: Add 24 hours to the current time for demonstration
+        // In a real application, this would come from your API
+        expiryTime: new Date(Date.now() + 24 * 60 * 60 * 1000).getTime() // Example: 24 hours from now
+        
+      }));
+      setAllData(data)
+      setCollections(data.slice(0, visibleCount));
+      setCollections(collectionsWithExpiry); // Use the data with expiry dates
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false); // Set loading to false after fetch completes
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const handleLoadMore = () => {
+    const newVisibleCount = visibleCount + 4;
+    setVisibleCount(newVisibleCount);
+    setCollections(allData.slice(0, newVisibleCount))
+  };
+
   return (
     <>
       <div>
@@ -14,7 +65,7 @@ const ExploreItems = () => {
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {new Array(8).fill(0).map((_, index) => (
+      {collections && collections.map((collection, index) => (
         <div
           key={index}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
@@ -23,15 +74,17 @@ const ExploreItems = () => {
           <div className="nft__item">
             <div className="author_list_pp">
               <Link
-                to="/author"
+                to={`/author/${collection.authorId}`}
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
               >
-                <img className="lazy" src={AuthorImage} alt="" />
+                <img className="lazy" src={collection.authorImage} alt="" />
                 <i className="fa fa-check"></i>
               </Link>
             </div>
-            <div className="de_countdown">5h 30m 32s</div>
+            {collection.expiryDate && (
+                      <CountdownTimer expiryDate={new Date(collection.expiryDate).getTime()} />
+                    )}
 
             <div className="nft__item_wrap">
               <div className="nft__item_extra">
@@ -51,18 +104,18 @@ const ExploreItems = () => {
                   </div>
                 </div>
               </div>
-              <Link to="/item-details">
-                <img src={nftImage} className="lazy nft__item_preview" alt="" />
+              <Link to={`/item-details/${collection.nftId}`}>
+                <img src={collection.nftImage} className="lazy nft__item_preview" alt="" />
               </Link>
             </div>
             <div className="nft__item_info">
-              <Link to="/item-details">
-                <h4>Pinky Ocean</h4>
+              <Link to={`/item-details/${collection.nftId}`}>
+                <h4>{collection.title}</h4>
               </Link>
-              <div className="nft__item_price">1.74 ETH</div>
+              <div className="nft__item_price">{collection.price} ETH</div>
               <div className="nft__item_like">
                 <i className="fa fa-heart"></i>
-                <span>69</span>
+                <span>{collection.likes}</span>
               </div>
             </div>
           </div>
@@ -70,7 +123,12 @@ const ExploreItems = () => {
       ))}
       <div className="col-md-12 text-center">
         <Link to="" id="loadmore" className="btn-main lead">
-          Load more
+        {collections.map(item => (
+          <div key={collections.id}>{collections.name}</div> // Adjust according to your data structure
+        ))}
+        {visibleCount < allData.length && (
+          <button onClick={handleLoadMore}>Load More</button>
+        )}
         </Link>
       </div>
     </>
