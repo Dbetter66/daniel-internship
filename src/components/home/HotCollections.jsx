@@ -20,6 +20,7 @@ const HotCollections = () => {
   }, []);
 
   const [collections, setCollections] = useState([]);
+  console.log(collections)
 
   async function getData() {
 

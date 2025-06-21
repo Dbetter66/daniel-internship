@@ -7,10 +7,9 @@ import CountdownTimer from "../CountdownTimer";
 const ExploreItems = () => {
 
   const [isLoading, setIsLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(4); 
+  const [visibleCount, setVisibleCount] = useState(8); 
   const [data, setData] = useState(null);
-  const [allData, setAllData] = useState([]);
-
+  const [allData, setAllData] = useState([])
   
   useEffect(() => {
     // Simulate data loading
@@ -35,9 +34,8 @@ const ExploreItems = () => {
         expiryTime: new Date(Date.now() + 24 * 60 * 60 * 1000).getTime() // Example: 24 hours from now
         
       }));
-      setAllData(data)
+      setAllData(data);
       setCollections(data.slice(0, visibleCount));
-      setCollections(collectionsWithExpiry); // Use the data with expiry dates
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -67,7 +65,7 @@ const ExploreItems = () => {
       </div>
       {collections && collections.map((collection, index) => (
         <div
-          key={index}
+          key={index.id}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
           style={{ display: "block", backgroundSize: "cover" }}
         >
@@ -123,7 +121,7 @@ const ExploreItems = () => {
       ))}
       <div className="col-md-12 text-center">
         <Link to="" id="loadmore" className="btn-main lead">
-        {collections.map(item => (
+          {collections.map(collection => (
           <div key={collections.id}>{collections.name}</div> // Adjust according to your data structure
         ))}
         {visibleCount < allData.length && (
