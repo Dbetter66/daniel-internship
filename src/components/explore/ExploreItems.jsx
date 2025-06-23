@@ -47,16 +47,28 @@ const ExploreItems = () => {
     getData();
   }, []);
 
+  async function filterItems(filter) {
+    const response = await axios.get(
+      `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filter}`
+    );
+
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   const handleLoadMore = () => {
     const newVisibleCount = visibleCount + 4;
     setVisibleCount(newVisibleCount);
     setCollections(allData.slice(0, newVisibleCount))
   };
 
+ 
   return (
     <>
       <div>
-        <select id="filter-items" defaultValue="">
+        <select id="filter-items" defaultValue="" onChange={(event) => filterItems(event.target.value)}>
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
@@ -65,7 +77,7 @@ const ExploreItems = () => {
       </div>
       {collections && collections.map((collection, index) => (
         <div
-          key={index.id}
+          key={index}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
           style={{ display: "block", backgroundSize: "cover" }}
         >
