@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useState, useEffect } from "react";
 import CountdownTimer from "../CountdownTimer"; 
+import 'aos/dist/aos.css';
 
 const ExploreItems = () => {
 
@@ -81,7 +82,7 @@ const ExploreItems = () => {
   return (
     <>
       <div>
-        <select id="filter-items" defaultValue="" onChange={(event) => filterItems(event.target.value)}>
+        <select data-aos="fade-up" id="filter-items" defaultValue="" onChange={(event) => filterItems(event.target.value)}>
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
@@ -98,8 +99,8 @@ const ExploreItems = () => {
               className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
               style={{ display: "block", backgroundSize: "cover" }}
             >
-              <div className="nft__item">
-                <div className="author_list_pp">
+              <div data-aos="fade-up" className="nft__item">
+                <div data-aos="fade-up" className="author_list_pp">
                   <Link
                     to={`/author/${collection.authorId}`}
                     data-bs-toggle="tooltip"
@@ -110,11 +111,11 @@ const ExploreItems = () => {
                   </Link>
                 </div>
                 {collection.expiryTime && ( // Use expiryTime here as that's what you're setting
-                  <CountdownTimer expiryDate={collection.expiryDate} />
+                  <CountdownTimer  expiryDate={collection.expiryDate} />
                 )}
 
-                <div className="nft__item_wrap">
-                  <div className="nft__item_extra">
+                <div data-aos="fade-up" className="nft__item_wrap">
+                  <div data-aos="fade-up" className="nft__item_extra">
                     <div className="nft__item_buttons">
                       <button>Buy Now</button>
                       <div className="nft__item_share">

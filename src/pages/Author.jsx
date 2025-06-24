@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import AuthorItems from "../components/author/AuthorItems";
+import 'aos/dist/aos.css';
 
 const Author = () => {
  
@@ -40,14 +41,14 @@ const Author = () => {
         <section aria-label="section">
           <div className="container">
             <div className="row">
-              <div className="col-md-12">
+              <div data-aos="fade-up" className="col-md-12">
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
-                    <div className="profile_avatar">
+                    <div data-aos="fade-up" className="profile_avatar">
                       <img src={collections.authorImage} alt="" />
 
                       <i className="fa fa-check"></i>
-                      <div className="profile_name">
+                      <div data-aos="fade-up" className="profile_name">
                         <h4>
                           {collections.creatorName}
                           <span className="profile_username">@{collections.tag}</span>
@@ -61,9 +62,9 @@ const Author = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="profile_follow de-flex">
+                  <div data-aos="fade-up" className="profile_follow de-flex">
                     <div className="de-flex-col">
-                      <div className="profile_follower">{collections.followers} followers</div>
+                      <div data-aos="fade-up" className="profile_follower">{collections.followers} followers</div>
                       <Link to="#" className="btn-main">
                         Follow
                       </Link>
@@ -73,7 +74,7 @@ const Author = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-12"> 
+              <div data-aos="fade-up" className="col-md-12"> 
                 <div className="de_tab tab_simple"><AuthorItems collections={collections.nftCollection} authorImage={collections.authorImage} />
                 </div>
               </div>

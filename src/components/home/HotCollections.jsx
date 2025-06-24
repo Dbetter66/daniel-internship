@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 
 import Slider from "react-slick";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 
 const HotCollections = () => {
@@ -89,7 +93,7 @@ const HotCollections = () => {
 
           <div className="col-lg-12">
 
-            <div className="text-center">
+            <div data-aos="fade-in" data-aos-duration="300" className="text-center">
 
               <h2>Hot Collections</h2>
 
@@ -103,7 +107,7 @@ const HotCollections = () => {
 <Slider ref={sliderRef} {...settings}>
           {collections.slice(0, 4).map((collection, index) => (
 
-            <div className="slick-arrow px-1" key={index}>
+            <div data-aos="fade-in" data-aos-duration="300" className="slick-arrow px-1" key={index}>
               
 
               <div className="nft_coll">

@@ -3,6 +3,7 @@ import EthImage from "../images/ethereum.svg";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
+import 'aos/dist/aos.css';
 
 const ItemDetails = () => {
  
@@ -30,17 +31,17 @@ const ItemDetails = () => {
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
         <section aria-label="section" className="mt90 sm-mt-0">
-          <div className="container">
+          <div  className="container">
             <div className="row">
-              <div className="col-md-6 text-center">
+              <div data-aos="fade-up" className="col-md-6 text-center">
                 <img
                   src={collections.nftImage}
                   className="img-fluid img-rounded mb-sm-30 nft-image"
                   alt=""
                 />
               </div>
-              <div className="col-md-6">
-                <div className="item_info">
+              <div data-aos="fade-up" className="col-md-6">
+                <div data-aos="fade-up" className="item_info">
                   <h2>{collections.title}</h2>
 
                   <div className="item_info_counts">
