@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const CountdownTimer = ({expiryDate}) => {
+const CountdownTimer = ({ expiryDate }) => {
     const [seconds, setSeconds] = useState();
     const [minutes, setMinutes] = useState();
     const [hours, setHours] = useState();
