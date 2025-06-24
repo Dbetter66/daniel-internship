@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+
 
 const TopSellers = () => {
 
@@ -46,12 +48,12 @@ const TopSellers = () => {
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
-            <div className="text-center">
+            <div data-aos="fade-up" className="text-center">
               <h2>Top Sellers</h2>
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div className="col-md-12">
+          <div data-aos="fade-up" className="col-md-12">
             <ol className="author_list">
             {collections && collections.map((collection, index)  => (
                 <li key={index}>
@@ -65,7 +67,7 @@ const TopSellers = () => {
                       <i className="fa fa-check"></i>
                     </Link>
                   </div>
-                  <div className="author_list_info">
+                  <div data-aos="fade-up" className="author_list_info">
                     <Link to={`/author/${collection.authorId}`}>{collection.authorName}</Link>
                     <span>{collection.price} ETH</span>
                   </div>
