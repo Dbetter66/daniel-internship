@@ -93,7 +93,7 @@ const HotCollections = () => {
 
           <div className="col-lg-12">
 
-            <div data-aos="fade-in" data-aos-duration="300" className="text-center">
+            <div data-aos="fade-up" className="text-center">
 
               <h2>Hot Collections</h2>
 
@@ -107,7 +107,7 @@ const HotCollections = () => {
 <Slider ref={sliderRef} {...settings}>
           {collections.slice(0, 4).map((collection, index) => (
 
-            <div data-aos="fade-in" data-aos-duration="300" className="slick-arrow px-1" key={index}>
+            <div data-aos="fade-up" className="slick-arrow px-1" key={index}>
               
 
               <div className="nft_coll">
