@@ -110,8 +110,8 @@ const ExploreItems = () => {
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
-                {collection.expiryTime && ( // Use expiryTime here as that's what you're setting
-                  <CountdownTimer  expiryDate={collection.expiryDate} />
+                {collection.expiryTime && ( 
+                  <CountdownTimer  expiryDate={new Date(collection.expiryDate).getTime()} />
                 )}
 
                 <div data-aos="fade-up" className="nft__item_wrap">
