@@ -110,7 +110,7 @@ const ExploreItems = () => {
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
-                {collection.expiryTime && ( 
+                {collection.expiryDate && ( 
                   <CountdownTimer  expiryDate={new Date(collection.expiryDate).getTime()} />
                 )}
 
