@@ -9,6 +9,17 @@ const ItemDetails = () => {
  
     const [collections, setCollections] = useState([]);
     const { nftId } = useParams();
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    useEffect(() => {
+      // Simulate data loading
+      setTimeout(() => {
+         setData({ data });
+         setIsLoading(false);
+      }, 2000);
+   }, []);
   
     const fetchUserData = async () => {
       try {
@@ -43,7 +54,6 @@ const ItemDetails = () => {
               <div data-aos="fade-up" className="col-md-6">
                 <div data-aos="fade-up" className="item_info">
                   <h2>{collections.title}</h2>
-
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
@@ -62,34 +72,40 @@ const ItemDetails = () => {
                   <div className="d-flex flex-row">
                     <div className="mr40">
                       <h6>Owner</h6>
+                    <ol className="author_list">
+                      {collections && collections.map((collection, index)  => (
+                        <li key={index}>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
+                          <Link to={`/author/${collection.authorId}`}>
                             <img className="lazy" src={collections.ownerImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">{collections.ownerName}</Link>
+                          <Link to={`/author/${collection.authorId}`}>{collections.ownerName}</Link>
                         </div>
                       </div>
-                    </div>
-                    <div></div>
+                      </li>
+            ))}
+                      </ol>   </div>
                   </div>
                   <div className="de_tab tab_simple">
                     <div className="de_tab_content">
                       <h6>Creator</h6>
+                     
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
+                          <Link to={`/author/${collection.authorId}`}>
                             <img className="lazy" src={collections.creatorImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">{collections.creatorName}</Link>
+                          <Link to={`/author/${collection.authorId}`}>{collections.creatorName}</Link>
                         </div>
                       </div>
+                     
                     </div>
                     <div className="spacer-40"></div>
                     <h6>Price</h6>
@@ -98,14 +114,15 @@ const ItemDetails = () => {
                       <span>{collections.price}</span>
                     </div>
                   </div>
+                      
                 </div>
               </div>
-            </div>
+              </div>
           </div>
         </section>
       </div>
     </div>
-  );
+              );
 };
 
 export default ItemDetails;
