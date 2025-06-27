@@ -107,8 +107,8 @@ const HotCollections = () => {
 <Slider ref={sliderRef} {...settings}>
           {collections.slice(0, 4).map((collection, index) => (
 
-            <div data-aos="fade-up" className="slick-arrow px-1" key={index}>
-              
+            <div data-aos="fade-up" className="sslick-arrow px-1" key={index}>
+              <div className="nft__item">
 
               <div className="nft_coll">
 
@@ -149,7 +149,7 @@ const HotCollections = () => {
               </div>
 
             </div>
-
+</div>
           ))}
 </Slider>
 

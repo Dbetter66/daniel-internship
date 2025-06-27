@@ -1,48 +1,47 @@
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
 import EthImage from "../images/ethereum.svg";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { useParams } from "react-router-dom";
-import 'aos/dist/aos.css';
+import "aos/dist/aos.css";
 
 const ItemDetails = () => {
- 
-    const [collections, setCollections] = useState([]);
-    const { nftId } = useParams();
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+  const [collections, setCollections] = useState([]);
+  const { nftId } = useParams();
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    // Simulate data loading
+    setTimeout(() => {
+      setData({ data });
+      setIsLoading(false);
+    }, 2000);
+  }, []);
 
-    useEffect(() => {
-      // Simulate data loading
-      setTimeout(() => {
-         setData({ data });
-         setIsLoading(false);
-      }, 2000);
-   }, []);
-  
-    const fetchUserData = async () => {
-      try {
-        const {data} = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`)
-        console.log(data)
-        setCollections(data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
+  const fetchUserData = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`
+      );
+      console.log(data);
+      setCollections(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-    useEffect(() => {
-      fetchUserData();
-      window.scrollTo(0, 0);
-    }, []);
-
+  useEffect(() => {
+    fetchUserData();
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
         <section aria-label="section" className="mt90 sm-mt-0">
-          <div  className="container">
+          <div className="container">
             <div className="row">
               <div data-aos="fade-up" className="col-md-6 text-center">
                 <img
@@ -72,40 +71,50 @@ const ItemDetails = () => {
                   <div className="d-flex flex-row">
                     <div className="mr40">
                       <h6>Owner</h6>
-                    <ol className="author_list">
-                      {collections && collections.map((collection, index)  => (
-                        <li key={index}>
-                      <div className="item_author">
-                        <div className="author_list_pp">
-                          <Link to={`/author/${collection.authorId}`}>
-                            <img className="lazy" src={collections.ownerImage} alt="" />
-                            <i className="fa fa-check"></i>
-                          </Link>
-                        </div>
-                        <div className="author_list_info">
-                          <Link to={`/author/${collection.authorId}`}>{collections.ownerName}</Link>
-                        </div>
-                      </div>
-                      </li>
-            ))}
-                      </ol>   </div>
+                      <ol className="author_list">
+                        <li>
+                          <div className="item_author">
+                            <div className="author_list_pp">
+                              <Link to={`/author/${collections.ownerId}`}>
+                                <img
+                                  className="lazy"
+                                  src={collections.ownerImage}
+                                  alt=""
+                                />
+                                <i className="fa fa-check"></i>
+                              </Link>
+                            </div>
+                            <div className="author_list_info">
+                              <Link to={`/author/${collections.ownerId}`}>
+                                {collections.ownerName}
+                              </Link>
+                            </div>
+                          </div>
+                        </li>
+                      </ol>{" "}
+                    </div>
                   </div>
                   <div className="de_tab tab_simple">
                     <div className="de_tab_content">
                       <h6>Creator</h6>
-                     
+
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${collection.authorId}`}>
-                            <img className="lazy" src={collections.creatorImage} alt="" />
+                          <Link to={`/author/${collections.creatorId}`}>
+                            <img
+                              className="lazy"
+                              src={collections.creatorImage}
+                              alt=""
+                            />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${collection.authorId}`}>{collections.creatorName}</Link>
+                          <Link to={`/author/${collections.creatorId}`}>
+                            {collections.creatorName}
+                          </Link>
                         </div>
                       </div>
-                     
                     </div>
                     <div className="spacer-40"></div>
                     <h6>Price</h6>
@@ -114,15 +123,14 @@ const ItemDetails = () => {
                       <span>{collections.price}</span>
                     </div>
                   </div>
-                      
                 </div>
               </div>
-              </div>
+            </div>
           </div>
         </section>
       </div>
     </div>
-              );
+  );
 };
 
 export default ItemDetails;
